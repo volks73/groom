@@ -4,11 +4,13 @@
 extern crate ansi_term;
 extern crate atty;
 #[macro_use] extern crate clap;
+extern crate groom;
 extern crate log;
 extern crate loggerv;
 
 use ansi_term::Colour;
 use clap::{App, Arg};
+use groom::Groom;
 use std::error::Error;
 use std::io::Write;
 
@@ -19,15 +21,15 @@ fn main() {
     // but it must be enabled first. The ansi_term crate provides a function for enabling ANSI
     // support in Windows, but it is conditionally compiled and only exists for Windows builds. To
     // avoid build errors on non-windows platforms, a cfg guard should be put in place.
-    #[cfg(windows)] ansi_term::enable_ansi_support().unwrap();
+    #[cfg(windows)] ansi_term::enable_ansi_support().expect("Enable ANSI support on Windows");
 
     let matches = App::new("groom")
         .version(crate_version!())
         .about("An application for processing mustache templates")
         .arg(Arg::with_name("debug")
-             .help("Enables the module path and line numbers for log statements output. Use the '-v,--verbose' flag to increase the number of log statements in combination with this flag.")
+             .help("Changes the output for INFO, DEBUG, and TRACE log statements from stdout to stderr.")
              .long("debug")
-             .short("d")
+             .short("d"))
         .arg(Arg::with_name("verbose")
              .help("Sets the level of verbosity. The higher the level of verbosity, the more information that is printed and logged when the application is executed. This flag can be specified multiple times, where each occurrence increases the level.")
              .long("verbose")
@@ -37,8 +39,6 @@ fn main() {
     loggerv::Logger::new()
         .verbosity(matches.occurrences_of("verbose"))
         .level(true)
-        .line_numbers(matches.is_present("debug"))
-        .module_path(matches.is_present("debug"))
         .init()
         .expect("logger to initiate");
     let result = Groom::new().run();
