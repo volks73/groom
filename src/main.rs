@@ -11,6 +11,8 @@ extern crate loggerv;
 use ansi_term::Colour;
 use clap::{App, Arg};
 use groom::Groom;
+use log::LogLevel;
+use loggerv::Output;
 use std::error::Error;
 use std::io::Write;
 
@@ -36,11 +38,17 @@ fn main() {
              .short("v")
              .multiple(true))
         .get_matches();
-    loggerv::Logger::new()
-        .verbosity(matches.occurrences_of("verbose"))
-        .level(true)
-        .init()
-        .expect("logger to initiate");
+    if matches.is_present("debug") {
+        loggerv::Logger::new()
+            .output(&LogLevel::Info, Output::Stderr)
+            .output(&LogLevel::Debug, Output::Stderr)
+            .output(&LogLevel::Trace, Output::Stderr)
+    } else {
+        loggerv::Logger::new()
+    }.verbosity(matches.occurrences_of("verbose"))
+    .level(true)
+    .init()
+    .expect("logger to initiate");
     let result = Groom::new().run();
     match result {
         Ok(_) => {
