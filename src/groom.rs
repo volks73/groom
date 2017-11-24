@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Groom.  If not, see <http://www.gnu.org/licenses/>.
 
-use Error;
+use serde_yaml::{self, Value};
 use std::path::PathBuf;
 use std::fs::OpenOptions;
 use std::io::{self, Read, Write};
@@ -61,23 +61,22 @@ impl Groom {
         debug!("mapping = {}", mapping.display());
         debug!("input = {:?}", self.input);
         debug!("output = {:?}", self.output);
-        if !mapping.exists() {
-            return Err(Error::Input(format!("The '{}' file does not exist.", mapping.display())));
-        }
-        let reader: Box<Read> = if let Some(input) = self.input {
+        let map_reader = OpenOptions::new().read(true).open(mapping)?;
+        let input_reader: Box<Read> = if let Some(input) = self.input {
             trace!("Reading from '{}'", input.display());
             Box::new(OpenOptions::new().read(true).open(input)?)
         } else {
             info!("Reading from stdin");
             Box::new(io::stdin())
         };
-        let writer: Box<Write> = if let Some(output) = self.output {
+        let output_writer: Box<Write> = if let Some(output) = self.output {
             trace!("Writing to '{}'", output.display());
             Box::new(OpenOptions::new().write(true).create(true).open(output)?)
         } else {
             info!("Writing to stdout");
             Box::new(io::stdout())
         };
+        let value: Value = serde_yaml::from_reader(map_reader)?;
         // TODO: Add processing templates and writing to output
         Ok(())
     }

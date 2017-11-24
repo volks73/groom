@@ -21,6 +21,7 @@
 //! [mustache](https://mustache.github.io/) templates.
 
 #[macro_use] extern crate log;
+extern crate serde_yaml;
 
 use std::error::Error as StdError;
 use std::fmt;
@@ -37,7 +38,8 @@ pub type Result<T> = result::Result<T, Error>;
 pub enum Error {
     Generic(String),
     Input(String),
-    Io(io::Error)
+    Io(io::Error),
+    Yaml(serde_yaml::Error),   
 }
 
 impl Error {
@@ -46,6 +48,7 @@ impl Error {
             Error::Generic(..) => 1,
             Error::Input(..) => 2,
             Error::Io(..) => 3,
+            Error::Yaml(..) => 4,
         }
     }
 }
@@ -56,6 +59,7 @@ impl fmt::Display for Error {
             Error::Generic(ref msg) => write!(f, "{}", msg),
             Error::Input(ref msg) => write!(f, "{}", msg),
             Error::Io(ref err) => write!(f, "{}", err),
+            Error::Yaml(ref err) => write!(f, "{}", err),
         }
     }
 }
@@ -66,12 +70,14 @@ impl StdError for Error {
             Error::Generic(..) => "Generic",
             Error::Input(..) => "Input",
             Error::Io(..) => "IO",
+            Error::Yaml(..) => "YAML",
         }
     }
 
     fn cause(&self) -> Option<&StdError> {
         match *self {
             Error::Io(ref err) => Some(err),
+            Error::Yaml(ref err) => Some(err),
             _ => None
         }
     }
@@ -80,6 +86,12 @@ impl StdError for Error {
 impl From<io::Error> for Error {
     fn from(err: io::Error) -> Error {
         Error::Io(err)
+    }
+}
+
+impl From<serde_yaml::Error> for Error {
+    fn from(err: serde_yaml::Error) -> Error {
+        Error::Yaml(err)
     }
 }
 

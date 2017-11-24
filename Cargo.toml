@@ -26,3 +26,5 @@ clap = "2.27"
 log = "0.3"
 loggerv = { git = "https://github.com/clux/loggerv.git" }
 mustache = "0.8"
+serde = "1.0"
+serde_yaml = "0.7"
