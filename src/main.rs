@@ -33,7 +33,7 @@ use loggerv::Output;
 use std::error::Error;
 use std::io::Write;
 
-const ERROR_COLOR: Colour = Colour::Fixed(9); // bright red
+const ERROR_COLOR: Colour = Colour::Fixed(9); // Bright red
 
 fn main() {
     // Based on documentation for the ansi_term crate, Windows 10 supports ANSI escape characters,
