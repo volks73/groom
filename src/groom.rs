@@ -17,8 +17,8 @@
 
 use Error;
 use std::path::PathBuf;
-use std::fs::File;
-use std::io::{self, Read};
+use std::fs::OpenOptions;
+use std::io::{self, Read, Write};
 use Result;
 
 /// A builder for running the application.
@@ -66,12 +66,18 @@ impl Groom {
         }
         let reader: Box<Read> = if let Some(input) = self.input {
             trace!("Reading from '{}'", input.display());
-            Box::new(File::open(input)?)
+            Box::new(OpenOptions::new().read(true).open(input)?)
         } else {
             info!("Reading from stdin");
             Box::new(io::stdin())
         };
-        // TODO: Add converting output to stdout if None
+        let writer: Box<Write> = if let Some(output) = self.output {
+            trace!("Writing to '{}'", output.display());
+            Box::new(OpenOptions::new().write(true).create(true).open(output)?)
+        } else {
+            info!("Writing to stdout");
+            Box::new(io::stdout())
+        };
         // TODO: Add processing templates and writing to output
         Ok(())
     }
