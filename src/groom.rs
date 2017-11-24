@@ -1,33 +1,49 @@
 use std::path::PathBuf;
-use std::ffi::OsStr;
 use Result;
 
 /// A builder for running the application.
 pub struct Groom {
-    inputs: Option<Vec<PathBuf>>,
+    input: Option<PathBuf>,
     output: Option<PathBuf>
 }
 
 impl Groom {
+    /// Creates a new application instance.
     pub fn new() -> Groom {
         Groom {
-            inputs: None,
+            input: None,
             output: None,
         }
     }
 
-    pub fn input<S: AsRef<OsStr>>(mut self, i: Option<Vec<S>>) -> Self {
-        self.inputs = i.map(|v| v.iter().map(|s| PathBuf::from(s)).collect());
+    /// Sets the inputs.
+    ///
+    /// If the inputs is `None` or the vector is empty, then `stdin` is used for the input
+    /// template.
+    pub fn input(mut self, i: Option<&str>) -> Self {
+        self.input = i.map(|i| PathBuf::from(i));
         self
     }
 
+    /// Sets the output.
+    ///
+    /// If the output is `None`, then `stdout` is used for the output stream.
     pub fn output(mut self, o: Option<&str>) -> Self {
         self.output = o.map(|o| PathBuf::from(o));
         self
     }
 
-    pub fn run(self, mapping: &str) -> Result<()> {
-        debug!("mapping = {}", mapping);
+    /// Runs the application.
+    ///
+    /// This will process the input templates using the provided mapping.
+    pub fn run(self, m: &str) -> Result<()> {
+        let mapping = PathBuf::from(m);
+        debug!("mapping = {}", mapping.display());
+        debug!("input = {:?}", self.input);
+        debug!("output = {:?}", self.output);
+        // TODO: Add converting inputs to stdin if None
+        // TODO: Add converting output to stdout if None
+        // TODO: Add processing templates and writing to output
         Ok(())
     }
 }
