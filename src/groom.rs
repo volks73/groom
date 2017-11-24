@@ -26,7 +26,8 @@ impl Groom {
         self
     }
 
-    pub fn run(self) -> Result<()> {
+    pub fn run(self, mapping: &str) -> Result<()> {
+        debug!("mapping = {}", mapping);
         Ok(())
     }
 }

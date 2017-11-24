@@ -28,8 +28,14 @@ fn main() {
     let matches = App::new("groom")
         .version(crate_version!())
         .about("An application for processing mustache templates")
-        .arg(Arg::with_name("files")
-             .help("Paths to files to be processed.")
+        .arg(Arg::with_name("MAPPING")
+             .help("The JSON text that maps template tags (placeholders) to values.")
+             .index(1)
+             .required(true)
+             .takes_value(true))
+        .arg(Arg::with_name("FILES")
+             .help("Paths to files to be processed. It no files are specified, then a template is read from stdin.")
+             .index(2)
              .takes_value(true)
              .multiple(true))
         .arg(Arg::with_name("debug")
@@ -37,7 +43,7 @@ fn main() {
              .long("debug")
              .short("d"))
         .arg(Arg::with_name("output")
-             .help("The output file for the compiled template. The default is to write the output to stdout.")
+             .help("The output destination for the processed template. The default destination is stdout.")
              .long("output")
              .short("o")
              .takes_value(true))
@@ -55,13 +61,14 @@ fn main() {
     } else {
         loggerv::Logger::new()
     }.verbosity(matches.occurrences_of("verbose"))
+    .module_path(false)
     .level(true)
     .init()
     .expect("logger to initiate");
     let result = Groom::new()
-        .input(matches.values_of("input").and_then(|v| Some(v.collect())))
+        .input(matches.values_of("FILES").and_then(|v| Some(v.collect())))
         .output(matches.value_of("output"))
-        .run();
+        .run(matches.value_of("MAPPING").unwrap());
     match result {
         Ok(_) => {
             std::process::exit(0);
