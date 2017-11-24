@@ -1,5 +1,6 @@
-use Result;
 use std::path::PathBuf;
+use std::ffi::OsStr;
+use Result;
 
 /// A builder for running the application.
 pub struct Groom {
@@ -13,6 +14,11 @@ impl Groom {
             inputs: None,
             output: None,
         }
+    }
+
+    pub fn input<S: AsRef<OsStr>>(mut self, i: Option<Vec<S>>) -> Self {
+        self.inputs = i.map(|v| v.iter().map(|s| PathBuf::from(s)).collect());
+        self
     }
 
     pub fn output(mut self, o: Option<&str>) -> Self {

@@ -28,6 +28,10 @@ fn main() {
     let matches = App::new("groom")
         .version(crate_version!())
         .about("An application for processing mustache templates")
+        .arg(Arg::with_name("files")
+             .help("Paths to files to be processed.")
+             .takes_value(true)
+             .multiple(true))
         .arg(Arg::with_name("debug")
              .help("Changes the output for INFO, DEBUG, and TRACE log statements from stdout to stderr.")
              .long("debug")
@@ -55,6 +59,7 @@ fn main() {
     .init()
     .expect("logger to initiate");
     let result = Groom::new()
+        .input(matches.values_of("input").and_then(|v| Some(v.collect())))
         .output(matches.value_of("output"))
         .run();
     match result {
