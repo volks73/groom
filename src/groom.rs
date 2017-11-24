@@ -18,7 +18,7 @@
 use mustache;
 use serde_yaml::{self, Value};
 use std::path::PathBuf;
-use std::fs::OpenOptions;
+use std::fs::File;
 use std::io::{self, Read, Write};
 use std::str;
 use Result;
@@ -63,25 +63,23 @@ impl Groom {
         debug!("mapping = {}", mapping.display());
         debug!("input = {:?}", self.input);
         debug!("output = {:?}", self.output);
-        let map_reader = OpenOptions::new().read(true).open(mapping)?;
-        let mut input_reader: Box<Read> = if let Some(input) = self.input {
-            trace!("Reading from '{}'", input.display());
-            Box::new(OpenOptions::new().read(true).open(input)?)
+        let value: Value = serde_yaml::from_reader(File::open(mapping)?)?;
+        let template = if let Some(input) = self.input {
+            trace!("Reading template from '{}'", input.display());
+            mustache::compile_path(input)?
         } else {
-            info!("Reading from stdin");
-            Box::new(io::stdin())
+            info!("Reading template from stdin");
+            let mut buffer = Vec::new();
+            io::stdin().read_to_end(&mut buffer)?;
+            mustache::compile_str(str::from_utf8(&buffer)?)?
         };
         let output_writer: Box<Write> = if let Some(output) = self.output {
-            trace!("Writing to '{}'", output.display());
-            Box::new(OpenOptions::new().write(true).create(true).open(output)?)
+            trace!("Writing rendering to '{}'", output.display());
+            Box::new(File::create(output)?)
         } else {
-            info!("Writing to stdout");
+            info!("Writing rendering to stdout");
             Box::new(io::stdout())
         };
-        let value: Value = serde_yaml::from_reader(map_reader)?;
-        let mut buffer = Vec::new();
-        input_reader.read_to_end(&mut buffer)?;
-        let template = mustache::compile_str(str::from_utf8(&buffer)?)?;
         Ok(())
     }
 }
