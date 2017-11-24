@@ -32,6 +32,11 @@ fn main() {
              .help("Changes the output for INFO, DEBUG, and TRACE log statements from stdout to stderr.")
              .long("debug")
              .short("d"))
+        .arg(Arg::with_name("output")
+             .help("The output file for the compiled template. The default is to write the output to stdout.")
+             .long("output")
+             .short("o")
+             .takes_value(true))
         .arg(Arg::with_name("verbose")
              .help("Sets the level of verbosity. The higher the level of verbosity, the more information that is printed and logged when the application is executed. This flag can be specified multiple times, where each occurrence increases the level.")
              .long("verbose")
@@ -49,7 +54,9 @@ fn main() {
     .level(true)
     .init()
     .expect("logger to initiate");
-    let result = Groom::new().run();
+    let result = Groom::new()
+        .output(matches.value_of("output"))
+        .run();
     match result {
         Ok(_) => {
             std::process::exit(0);
