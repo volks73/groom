@@ -21,12 +21,14 @@
 //! [mustache](https://mustache.github.io/) templates.
 
 #[macro_use] extern crate log;
+extern crate mustache;
 extern crate serde_yaml;
 
 use std::error::Error as StdError;
 use std::fmt;
 use std::io;
 use std::result;
+use std::str;
 
 pub use self::groom::Groom;
 
@@ -39,6 +41,8 @@ pub enum Error {
     Generic(String),
     Input(String),
     Io(io::Error),
+    Mustache(mustache::Error),
+    Utf8(str::Utf8Error),
     Yaml(serde_yaml::Error),   
 }
 
@@ -48,7 +52,9 @@ impl Error {
             Error::Generic(..) => 1,
             Error::Input(..) => 2,
             Error::Io(..) => 3,
-            Error::Yaml(..) => 4,
+            Error::Mustache(..) => 4,
+            Error::Utf8(..) => 5,
+            Error::Yaml(..) => 6,
         }
     }
 }
@@ -59,6 +65,8 @@ impl fmt::Display for Error {
             Error::Generic(ref msg) => write!(f, "{}", msg),
             Error::Input(ref msg) => write!(f, "{}", msg),
             Error::Io(ref err) => write!(f, "{}", err),
+            Error::Mustache(ref err) => write!(f, "{}", err),
+            Error::Utf8(ref err) => write!(f, "{}", err),
             Error::Yaml(ref err) => write!(f, "{}", err),
         }
     }
@@ -70,6 +78,8 @@ impl StdError for Error {
             Error::Generic(..) => "Generic",
             Error::Input(..) => "Input",
             Error::Io(..) => "IO",
+            Error::Mustache(..) => "Mustache",
+            Error::Utf8(..) => "UTF8",
             Error::Yaml(..) => "YAML",
         }
     }
@@ -77,6 +87,8 @@ impl StdError for Error {
     fn cause(&self) -> Option<&StdError> {
         match *self {
             Error::Io(ref err) => Some(err),
+            Error::Mustache(ref err) => Some(err),
+            Error::Utf8(ref err) => Some(err),
             Error::Yaml(ref err) => Some(err),
             _ => None
         }
@@ -89,9 +101,21 @@ impl From<io::Error> for Error {
     }
 }
 
+impl From<mustache::Error> for Error {
+    fn from(err: mustache::Error) -> Error {
+        Error::Mustache(err)
+    }
+}
+
 impl From<serde_yaml::Error> for Error {
     fn from(err: serde_yaml::Error) -> Error {
         Error::Yaml(err)
+    }
+}
+
+impl From<str::Utf8Error> for Error {
+    fn from(err: str::Utf8Error) -> Error {
+        Error::Utf8(err)
     }
 }
 

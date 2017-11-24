@@ -46,7 +46,7 @@ fn main() {
         .version(crate_version!())
         .about("An application for processing mustache templates")
         .arg(Arg::with_name("MAPPING")
-             .help("The JSON text that maps template tags (placeholders) to values.")
+             .help("The YAML text that maps template tags (placeholders) to values.")
              .index(1)
              .required(true)
              .takes_value(true))

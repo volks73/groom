@@ -15,10 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Groom.  If not, see <http://www.gnu.org/licenses/>.
 
+use mustache;
 use serde_yaml::{self, Value};
 use std::path::PathBuf;
 use std::fs::OpenOptions;
 use std::io::{self, Read, Write};
+use std::str;
 use Result;
 
 /// A builder for running the application.
@@ -62,7 +64,7 @@ impl Groom {
         debug!("input = {:?}", self.input);
         debug!("output = {:?}", self.output);
         let map_reader = OpenOptions::new().read(true).open(mapping)?;
-        let input_reader: Box<Read> = if let Some(input) = self.input {
+        let mut input_reader: Box<Read> = if let Some(input) = self.input {
             trace!("Reading from '{}'", input.display());
             Box::new(OpenOptions::new().read(true).open(input)?)
         } else {
@@ -77,7 +79,9 @@ impl Groom {
             Box::new(io::stdout())
         };
         let value: Value = serde_yaml::from_reader(map_reader)?;
-        // TODO: Add processing templates and writing to output
+        let mut buffer = Vec::new();
+        input_reader.read_to_end(&mut buffer)?;
+        let template = mustache::compile_str(str::from_utf8(&buffer)?)?;
         Ok(())
     }
 }
