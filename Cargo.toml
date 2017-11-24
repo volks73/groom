@@ -6,7 +6,7 @@ authors = ["Christopher Field <cfield2@gmail.com>"]
 license = "GPL-3.0"
 readme = "README.md"
 keywords = ["cli", "mustache", "template"]
-categories = []
+categories = ["command-line-utilities", "text-processing"]
 homepage = "https://github.com/volks73/groom"
 repository = "https://github.com/volks73/groom"
 
