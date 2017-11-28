@@ -6,9 +6,11 @@ All notable changes to this project will be documented in this file, which is wr
 
 ### Added 
 
-- The `MAPPING` argument.
-- The `-i,--input` command line option.
-- The `-o,--output` command line option.
+- Reading YAML data from `stdin` as default.
+- Writing output to `stdout` as default.
+- The `-m,--map` option.
+- The required `INPUT` argument.
+- The optional `OUPUT` argument.
 - The `-h,--help` command line flag, which displays the help text for the application.
 - The `-V,--version` command line flag, which displays the current version for the application.
 - The `-v,--verbose` command line flag, which increases the logging statements while the application is executed.
