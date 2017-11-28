@@ -21,10 +21,28 @@
 //! # Example
 //!
 //! The following example will render the input template using the data in the `data.yml` file and
-//! write the output to stdout.
+//! writes the output to `stdout`.
 //!
 //! ```text
 //! $ groom -m data.yml template.mustache
+//! ```
+//!
+//! # Example
+//!
+//! The following example renders the input template by reading the data from `stdin` and writes
+//! the output to `stdout`.
+//!
+//! ```text
+//! $ cat data.yml | groom template.mustache
+//! ```
+//!
+//! # Example
+//!
+//! The following example renders the input template using the data in the `data.yml` file and
+//! writes the output to a file.
+//!
+//! ```text
+//! $ groom -m data.yml template.mustache output
 //! ```
 
 extern crate ansi_term;
