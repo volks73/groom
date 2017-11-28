@@ -18,7 +18,7 @@
 use Error;
 use mustache;
 use serde_yaml::{self, Value};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::fs::File;
 use std::io::{self, Write};
 use std::str;
@@ -59,7 +59,7 @@ impl Groom {
     ///
     /// This will consume the `Groom` and process the input template using the provided mapping and
     /// write to the output.
-    pub fn run(self, templates: Vec<&str>) -> Result<()> {
+    pub fn run<P: AsRef<Path>>(self, input: P) -> Result<()> {
         debug!("data = {:?}", self.data);
         debug!("output = {:?}", self.output);
         let data: Value = if let Some(data) = self.data {
@@ -80,18 +80,17 @@ impl Groom {
             info!("Rendering to stdout");
             Box::new(io::stdout())
         };
-        for path in templates.iter().map(|t| PathBuf::from(t)) {
-            if path.exists() {
-                info!("Compiling '{}'", path.display());
-                let template = mustache::compile_path(&path)?;
-                info!("Rendering '{}'", path.display());
-                // A pull request has been sent to the upstream project to add serde support. Until it is
-                // accepted/merged, the https://github.com/volks73/rust-mustache.git repository is used,
-                // which does contain serde support and development can continue.
-                template.render(&mut output_writer, &data)?;
-            } else {
-                return Err(Error::Input(format!("The '{}' template file does not exist", path.display())));
-            }
+        let path = PathBuf::from(input.as_ref());
+        if path.exists() {
+            info!("Compiling '{}'", path.display());
+            let template = mustache::compile_path(&path)?;
+            info!("Rendering '{}'", path.display());
+            // A pull request has been sent to the upstream project to add serde support. Until it is
+            // accepted/merged, the https://github.com/volks73/rust-mustache.git repository is used,
+            // which does contain serde support and development can continue.
+            template.render(&mut output_writer, &data)?;
+        } else {
+            return Err(Error::Input(format!("The '{}' template file does not exist", path.display())));
         }
         Ok(())
     }

@@ -50,16 +50,14 @@ fn main() {
              .short("m")
              .long("map")
              .takes_value(true))
-        .arg(Arg::with_name("TEMPLATES")
-             .help("The templates to render.")
+        .arg(Arg::with_name("INPUT")
+             .help("The input source template to render.")
+             .index(1)
              .required(true)
-             .multiple(true)
              .takes_value(true))
-        .arg(Arg::with_name("output")
-             .help("The output destination for the processed template. The default destination is stdout.")
-             .short("o")
-             .long("output")
-             .takes_value(true))
+        .arg(Arg::with_name("OUTPUT")
+             .help("The output destination for the rendered template. The default destination is stdout.")
+             .index(2))
         .arg(Arg::with_name("debug")
              .help("Changes the output for INFO, DEBUG, and TRACE log statements from stdout to stderr.")
              .long("debug")
@@ -84,8 +82,8 @@ fn main() {
     .expect("logger to initiate");
     let result = Groom::new()
         .data(matches.value_of("map"))
-        .output(matches.value_of("output"))
-        .run(matches.values_of("TEMPLATES").unwrap().collect());
+        .output(matches.value_of("OUTPUT"))
+        .run(matches.value_of("INPUT").unwrap());
     match result {
         Ok(_) => {
             std::process::exit(0);
