@@ -24,7 +24,7 @@ ansi_term = "0.10"
 atty = "0.2"
 clap = "2.27"
 log = "0.3"
-loggerv = { git = "https://github.com/clux/loggerv.git" }
-mustache = "0.8"
+loggerv = "0.6"
+mustache = { git = "https://github.com/volks73/rust-mustache.git" }
 serde = "1.0"
 serde_yaml = "0.7"

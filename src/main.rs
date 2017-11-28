@@ -45,15 +45,15 @@ fn main() {
     let matches = App::new("groom")
         .version(crate_version!())
         .about("An application for processing mustache templates")
-        .arg(Arg::with_name("MAPPING")
-             .help("The YAML text that maps template tags (placeholders) to values.")
-             .index(1)
-             .required(true)
+        .arg(Arg::with_name("map")
+             .help("The YAML text data that maps template tags (placeholders) to values. The default is to read from stdin.")
+             .short("m")
+             .long("map")
              .takes_value(true))
-        .arg(Arg::with_name("input")
-             .help("The input source for the template. The default source is stdin.")
-             .short("i")
-             .long("input")
+        .arg(Arg::with_name("TEMPLATES")
+             .help("The templates to render.")
+             .required(true)
+             .multiple(true)
              .takes_value(true))
         .arg(Arg::with_name("output")
              .help("The output destination for the processed template. The default destination is stdout.")
@@ -83,9 +83,9 @@ fn main() {
     .init()
     .expect("logger to initiate");
     let result = Groom::new()
-        .input(matches.value_of("input"))
+        .data(matches.value_of("map"))
         .output(matches.value_of("output"))
-        .run(matches.value_of("MAPPING").unwrap());
+        .run(matches.values_of("TEMPLATES").unwrap().collect());
     match result {
         Ok(_) => {
             std::process::exit(0);

@@ -19,13 +19,13 @@ use mustache;
 use serde_yaml::{self, Value};
 use std::path::PathBuf;
 use std::fs::File;
-use std::io::{self, Read, Write};
+use std::io::{self, Write};
 use std::str;
 use Result;
 
 /// A builder for running the application.
 pub struct Groom {
-    input: Option<PathBuf>,
+    data: Option<PathBuf>,
     output: Option<PathBuf>
 }
 
@@ -33,17 +33,16 @@ impl Groom {
     /// Creates a new application instance.
     pub fn new() -> Groom {
         Groom {
-            input: None,
+            data: None,
             output: None,
         }
     }
 
-    /// Sets the inputs.
+    /// Sets the data.
     ///
-    /// If the inputs is `None` or the vector is empty, then `stdin` is used for the input
-    /// template.
-    pub fn input(mut self, i: Option<&str>) -> Self {
-        self.input = i.map(|i| PathBuf::from(i));
+    /// If the data is `None`, then `stdin` is used for the data.
+    pub fn data(mut self, d: Option<&str>) -> Self {
+        self.data = d.map(|d| PathBuf::from(d));
         self
     }
 
@@ -57,29 +56,34 @@ impl Groom {
 
     /// Runs the application.
     ///
-    /// This will process the input template using the provided mapping and write to the output.
-    pub fn run(self, m: &str) -> Result<()> {
-        let mapping = PathBuf::from(m);
-        debug!("mapping = {}", mapping.display());
-        debug!("input = {:?}", self.input);
+    /// This will consume the `Groom` and process the input template using the provided mapping and
+    /// write to the output.
+    pub fn run(self, templates: Vec<&str>) -> Result<()> {
+        debug!("data = {:?}", self.data);
         debug!("output = {:?}", self.output);
-        let value: Value = serde_yaml::from_reader(File::open(mapping)?)?;
-        let template = if let Some(input) = self.input {
-            trace!("Reading template from '{}'", input.display());
-            mustache::compile_path(input)?
+        let data: Value = if let Some(data) = self.data {
+            trace!("Reading data from '{}'", data.display());
+            serde_yaml::from_reader(File::open(data)?)?
         } else {
-            info!("Reading template from stdin");
-            let mut buffer = Vec::new();
-            io::stdin().read_to_end(&mut buffer)?;
-            mustache::compile_str(str::from_utf8(&buffer)?)?
+            info!("Reading data from stdin");
+            serde_yaml::from_reader(io::stdin())?
         };
-        let output_writer: Box<Write> = if let Some(output) = self.output {
-            trace!("Writing rendering to '{}'", output.display());
+        let mut output_writer: Box<Write> = if let Some(output) = self.output {
+            trace!("Rendering to '{}'", output.display());
             Box::new(File::create(output)?)
         } else {
-            info!("Writing rendering to stdout");
+            info!("Rendering to stdout");
             Box::new(io::stdout())
         };
+        for t in templates {
+            info!("Compiling '{}'", t);
+            let template = mustache::compile_path(t)?;
+            info!("Rendering '{}'", t);
+            // A pull request has been sent to the upstream project to add serde support. Until it is
+            // accepted/merged, the https://github.com/volks73/rust-mustache.git repository is used,
+            // which does contain serde support and development can continue.
+            template.render(&mut output_writer, &data)?;
+        }
         Ok(())
     }
 }
