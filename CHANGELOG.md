@@ -14,4 +14,8 @@ All notable changes to this project will be documented in this file, which is wr
 - The `-h,--help` command line flag, which displays the help text for the application.
 - The `-V,--version` command line flag, which displays the current version for the application.
 - The `-v,--verbose` command line flag, which increases the logging statements while the application is executed.
+- Examples to the README file.
+- The LICENSE file.
+- The README file.
+- The AUTHORS file.
 
