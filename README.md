@@ -32,7 +32,7 @@ Download and install the following dependencies before installing the binary usi
 - [Pandoc](http://pandoc.org), v1.19 or higher, optional
 - [Rust](https://www.rust-lang.org/), v1.16 or higher
 
-#### Repository
+#### Application
 
 Run the following commands from a terminal:
 
@@ -40,17 +40,15 @@ Run the following commands from a terminal:
     $ cd groom
     $ cargo install
 
-It might be desirable to change the install location by using the `--root` option with the `cargo install` command. See the `cargo install --help` for more information about installing a Rust binary crate using Cargo.
-
-#### Distribution
-
-Obtain the appropriate source distribution as an archive file and run the following commands from a terminal:
+Or obtain the source as an archive and run the following commands from a terminal:
 
     $ tar xf groom-#.#.#.tar.gz
     $ cd groom-#.#.#
     $ cargo install
 
 where `#.#.#` is replaced with the version number of the source distribution, respectively. It might be desirable to change the install location by using the `--root` option with the `cargo install` command. See the `cargo install --help` for more information about installing a Rust binary crate using Cargo.
+
+It might be desirable to change the install location by using the `--root` option with the `cargo install` command. See the `cargo install --help` for more information about installing a Rust binary crate using Cargo.
 
 Note, if the groom binary was installed using cargo, then it can be uninstalled using `cargo uninstall groom`.
 
@@ -69,11 +67,11 @@ If uninstalling groom using Cargo, i.e. `cargo uninstall groom`, then the manpag
 
     $ rm ~/.cargo/share/man/man1/groom.1
 
-## Build ##
+## Build
 
 Download and install the same dependencies listed for [installing the application from source](#source), this includes the latest versions of [Rust](https://www.rust-lang.org), [Cargo](https://crates.io), and optionally [Pandoc](http://pandoc.org). 
 
-### Application ###
+### Application
 
 Run the following commands from a terminal:
 
@@ -89,7 +87,7 @@ Or obtain the source as an archive and run the following commands from a termina
 
 where `#.#.#` is replaced with the version number of the source distribution, respectively. The `--release` flag can be added to the cargo command to build a release application instead of a debug application. 
 
-### Documentation ###
+### Documentation
 
 Obtain the appropriate source and run the following commands from the root directory of the project in a terminal:
 
@@ -101,7 +99,7 @@ Or,
 
 When the `release` profile is used to build the binary, the manpage is automatically generated if pandoc is installed.
 
-## Examples ##
+## Examples
 
 Process a template by reading data from `stdin` and rendering to `stdout`:
 
@@ -129,11 +127,11 @@ $ groom -m data.yml template.mustache index.html
 
 Note, the output file must be the second argument if it is used, but it is not required. The input template is required.
 
-## License ##
+## License
 
 See the LICENSE file for more information about licensing and copyright.
 
-## Contributors ##
+## Contributors
 
 See the AUTHORS file for information about contributors. Contributors are listed alphabetically by family name.
 
