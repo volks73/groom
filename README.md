@@ -29,6 +29,7 @@ Follow the instructions for [installation from source](#source).
 Download and install the following dependencies before installing the binary using Cargo.
 
 - [Cargo](https://crates.io/), v0.17 or higher
+- [Pandoc](http://pandoc.org), v1.19 or higher, optional
 - [Rust](https://www.rust-lang.org/), v1.16 or higher
 
 Download and install the latest version of [Rust](https://www.rust-lang.org) before proceeding. [Cargo](https://crates.io) will be installed automatically with Rust.
@@ -53,9 +54,20 @@ Obtain the appropriate source distribution as an archive file and run the follow
 
 where `#.#.#` is replaced with the version number of the source distribution, respectively. It might be desirable to change the install location by using the `--root` option with the `cargo install` command. See the `cargo install --help` for more information about installing a Rust binary crate using Cargo.
 
+### Documentation (Optional) ###
+
+The manual must be installed manually. The [Pandoc](http://pandoc.org) application must be installed to convert the manual in [markdown](http://pandoc.org/MANUAL.html#pandocs-markdown) format to the appropriate [groff](https://www.gnu.org/software/groff/) format. First install the application, then from the root directory of the project, run the following commands from a terminal:
+
+    $ pandoc -s -t man -o man/groom.1 man/groom.1.md 
+    $ cp man/groom.1 /usr/share/man/man1
+
 ## Build ##
 
-Download and install the same dependencies listed for [installing the application from source](#source), this includes the latest versions of [Rust](https://www.rust-lang.org), and [Cargo](https://crates.io). Run the following commands from a terminal:
+Download and install the same dependencies listed for [installing the application from source](#source), this includes the latest versions of [Rust](https://www.rust-lang.org), [Cargo](https://crates.io), and optionally [Pandoc](http://pandoc.org). 
+
+### Application ###
+
+Run the following commands from a terminal:
 
     $ git clone https://github.com/volks73/groom.git
     $ cd groom
@@ -68,6 +80,12 @@ Or obtain the source as an archive and run the following commands from a termina
     $ cargo build
 
 where `#.#.#` is replaced with the version number of the source distribution, respectively. The `--release` flag can be added to the cargo command to build a release application instead of a debug application. 
+
+### Documentation ###
+
+Obtain the appropriate source and run the following commands from the root directory of the project in a terminal:
+
+    $ pandoc -s -t man -o man/groom.1 man/groom.1.md
 
 ## Examples ##
 
