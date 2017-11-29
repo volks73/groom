@@ -23,6 +23,32 @@ use std::fs::File;
 use std::io::{self, Write};
 use Result;
 
+// TODO: Add `data-format` method. This would indicate the format of the data, i.e. JSON, YAML,
+// Msgpack, Bincode, etc. This would override the format determined from the file extension.
+// THe default would be YAML.
+
+// TODO: Add a `serve` method. This would start process and render the templates but then start
+// a basic http server and serve the rendered templates. The `serve` method would take an
+// optional port number. If `None`, then port 8080 would be used. Pages would be served at
+// http://localhost:8080. If no output file is specified, then the file name of the template is
+// used but the file extension is replaced with `.html`.
+
+// TODO: Add a `listen` method. This would be after adding the `serve` method. It would
+// establish a file system notification for any modification of the template file. If the file
+// is modified, groom would automatically re-render the template; thus, the web page served
+// using the `serve` method would automatically update on modification.
+
+// TODO: Add data format deserialization based on file extension. For example, if the data file is
+// data.json, then the data is read as JSON instead of YAML. Or, if the data file is data.msgpack,
+// then the data is read as MessagePack, but it all gets used the same way for rendering. This
+// would allow different data formats to be used for rendering templates.
+
+// TODO: Add support for handlebars in additon to mustache templates. The file extension would
+// determine the format and which crate is used.
+
+// TODO: Add `template-format` method. This would override the file extension detection system and
+// explicitly indicate the template engine to use: (1) mustache or (2) handlebars.
+
 /// A builder for running the application.
 pub struct Groom {
     data: Option<PathBuf>,
