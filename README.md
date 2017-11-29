@@ -1,30 +1,30 @@
-# Groom: A command line application for processing Mustache templates #
+# Groom: A command line application for processing Mustache templates
 
 [About](#what-is-groom) | [Installation](#installation) | [Build](#build) | [Examples](#examples)  
 
-## What is Groom? ##
+## What is Groom?
 
 The Groom project is a Command-Line Interface (CLI) application for processing [Mustache](https://mustache.github.io/) templates. The project is primarily written in the [Rust](http://www.rust-lang.org) programming language. It can be installed on any [platform supported](https://forge.rust-lang.org/platform-support.html) by the Rust programming language, including Linux, macOS, and Windows. 
 
-## Installation ##
+## Installation
 
 Groom can be installed on any platform supported by the Rust programming language, including Linux, macOS, and Windows. It is possible to run Groom on Windows using the native command prompt (cmd.exe) or a terminal emulator, like [Mintty](https://mintty.github.io/) via [Cygwin](https://www.cygwin.com/).
 
-### Windows ###
+### Windows
 
 An installer (msi) with a pre-compiled binary is available with each [release](https://github.com/volks73/groom/releases). The installer will also add the installation location to the PATH system environment variable so groom can be executed from anywhere. Run the installer and follow the on-screen dialog to complete the installation.
 
 It is also possible to install the application from source using Cargo. See the instructions for [installation via Cargo](#source) and use a command prompt (cmd.exe) or terminal emulator to execute the commands.
 
-### macOS ###
+### macOS
 
 Follow the instructions for [installation from source](#source).
 
-### Linux ###
+### Linux
 
 Follow the instructions for [installation from source](#source).
 
-### Source ###
+### Source
 
 Download and install the following dependencies before installing the binary using Cargo.
 
@@ -32,9 +32,7 @@ Download and install the following dependencies before installing the binary usi
 - [Pandoc](http://pandoc.org), v1.19 or higher, optional
 - [Rust](https://www.rust-lang.org/), v1.16 or higher
 
-Download and install the latest version of [Rust](https://www.rust-lang.org) before proceeding. [Cargo](https://crates.io) will be installed automatically with Rust.
-
-#### Repository ####
+#### Repository
 
 Run the following commands from a terminal:
 
@@ -44,7 +42,7 @@ Run the following commands from a terminal:
 
 It might be desirable to change the install location by using the `--root` option with the `cargo install` command. See the `cargo install --help` for more information about installing a Rust binary crate using Cargo.
 
-#### Distribution ####
+#### Distribution
 
 Obtain the appropriate source distribution as an archive file and run the following commands from a terminal:
 
@@ -54,12 +52,22 @@ Obtain the appropriate source distribution as an archive file and run the follow
 
 where `#.#.#` is replaced with the version number of the source distribution, respectively. It might be desirable to change the install location by using the `--root` option with the `cargo install` command. See the `cargo install --help` for more information about installing a Rust binary crate using Cargo.
 
-### Documentation (Optional) ###
+Note, if the groom binary was installed using cargo, then it can be uninstalled using `cargo uninstall groom`.
 
-The manual must be installed manually. The [Pandoc](http://pandoc.org) application must be installed to convert the manual in [markdown](http://pandoc.org/MANUAL.html#pandocs-markdown) format to the appropriate [groff](https://www.gnu.org/software/groff/) format. First install the application, then from the root directory of the project, run the following commands from a terminal:
+#### Documentation (Optional)
+
+If the [Pandoc](http://pandoc.org) application was installed prior to installing from source via Cargo, i.e. `cargo install`, then a manpage in the [grofff](https://www.gnu.org/software/groff/) format is automatically created from the [markdown](http://pandoc.org/MANUAL.html#pandocs-markdown) "source" file in the `man` directory using pandoc as part of the build scripts (`build.rs`). Otherwise, the manpage can be built with the following command:
 
     $ pandoc -s -t man -o man/groom.1 man/groom.1.md 
-    $ cp man/groom.1 /usr/share/man/man1
+
+Regardless if the manpage (`groom.1`) was manually or automatically generated, it must be must be manually installed with the following command:
+
+    $ mkdir -p ~/.cargo/share/man/man1
+    $ cp man/groom.1 ~/.cargo/share/man/man1
+
+If uninstalling groom using Cargo, i.e. `cargo uninstall groom`, then the manpage must also be manually removed as follows:
+
+    $ rm ~/.cargo/share/man/man1/groom.1
 
 ## Build ##
 
@@ -85,7 +93,13 @@ where `#.#.#` is replaced with the version number of the source distribution, re
 
 Obtain the appropriate source and run the following commands from the root directory of the project in a terminal:
 
+    $ cargo build --release
+
+Or,
+
     $ pandoc -s -t man -o man/groom.1 man/groom.1.md
+
+When the `release` profile is used to build the binary, the manpage is automatically generated if pandoc is installed.
 
 ## Examples ##
 
