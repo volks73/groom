@@ -13,11 +13,6 @@ repository = "https://github.com/volks73/groom"
 [[bin]]
 name = "groom"
 path = "src/main.rs"
-doctest = false
-
-[lib]
-doc = false
-doctest = false
 
 [dependencies]
 ansi_term = "0.10"
@@ -28,3 +23,4 @@ loggerv = "0.6"
 mustache = { git = "https://github.com/volks73/rust-mustache.git" }
 serde = "1.0"
 serde_yaml = "0.7"
+

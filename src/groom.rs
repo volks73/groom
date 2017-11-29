@@ -21,7 +21,6 @@ use serde_yaml::{self, Value};
 use std::path::{Path, PathBuf};
 use std::fs::File;
 use std::io::{self, Write};
-use std::str;
 use Result;
 
 /// A builder for running the application.
@@ -42,16 +41,16 @@ impl Groom {
     /// Sets the data.
     ///
     /// If the data is `None`, then `stdin` is used for the data.
-    pub fn data(mut self, d: Option<&str>) -> Self {
-        self.data = d.map(|d| PathBuf::from(d));
+    pub fn data<P: AsRef<Path>>(mut self, d: Option<P>) -> Self {
+        self.data = d.map(|d| PathBuf::from(d.as_ref()));
         self
     }
 
     /// Sets the output.
     ///
     /// If the output is `None`, then `stdout` is used for the output stream.
-    pub fn output(mut self, o: Option<&str>) -> Self {
-        self.output = o.map(|o| PathBuf::from(o));
+    pub fn output<P: AsRef<Path>>(mut self, o: Option<P>) -> Self {
+        self.output = o.map(|o| PathBuf::from(o.as_ref()));
         self
     }
 
@@ -93,6 +92,32 @@ impl Groom {
             return Err(Error::Input(format!("The '{}' template file does not exist", path.display())));
         }
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn defaults_are_correct() {
+        let groom = Groom::new();
+        assert!(groom.data.is_none());
+        assert!(groom.output.is_none());
+    }
+
+    #[test]
+    fn output_works() {
+        const EXPECTED: &str = "test";
+        let groom = Groom::new().output(Some(EXPECTED));
+        assert_eq!(groom.output, Some(PathBuf::from(EXPECTED)));
+    }
+
+    #[test]
+    fn data_works() {
+        const EXPECTED: &str = "test";
+        let groom = Groom::new().data(Some(EXPECTED));
+        assert_eq!(groom.data, Some(PathBuf::from(EXPECTED)));
     }
 }
 
