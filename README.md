@@ -56,7 +56,7 @@ Note, if the groom binary was installed using cargo, then it can be uninstalled 
 
 #### Documentation (Optional)
 
-If the [Pandoc](http://pandoc.org) application was installed prior to installing from source via Cargo, i.e. `cargo install`, then a manpage in the [grofff](https://www.gnu.org/software/groff/) format is automatically created from the [markdown](http://pandoc.org/MANUAL.html#pandocs-markdown) "source" file in the `man` directory using pandoc as part of the build scripts (`build.rs`). Otherwise, the manpage can be built with the following command:
+If the [Pandoc](http://pandoc.org) application was installed prior to installing from source via Cargo, i.e. `cargo install`, then a manpage in the [grofff](https://www.gnu.org/software/groff/) format is automatically created from the [markdown](http://pandoc.org/MANUAL.html#pandocs-markdown) "source" file in the `man` directory using pandoc as part of the build script (`build.rs`). Otherwise, the manpage can be built with the following command:
 
     $ pandoc -s -t man -o man/groom.1 man/groom.1.md 
 
