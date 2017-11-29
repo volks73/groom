@@ -9,6 +9,7 @@ keywords = ["cli", "mustache", "template"]
 categories = ["command-line-utilities", "text-processing"]
 homepage = "https://github.com/volks73/groom"
 repository = "https://github.com/volks73/groom"
+build = "build.rs"
 
 [[bin]]
 name = "groom"
