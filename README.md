@@ -89,7 +89,7 @@ where `#.#.#` is replaced with the version number of the source distribution, re
 
 ### Documentation
 
-Documentation is available in two forms: (i) [API](#api) and (ii) [Manpage](#manpage). The API documentation is for the groom library/crate while the Manpage documentation is helpful for the executable/binary. 
+Documentation is available in two forms: (i) [API](#api) and (ii) [Manpage](#manpage). The API documentation is for the library/crate while the Manpage documentation is helpful for the executable/binary. 
 
 #### [API](https://volks73.github.io/groom)
 
