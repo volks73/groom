@@ -18,6 +18,7 @@ fn main() {
         output_man_file.push(&pkg_name);
         output_man_file.set_extension(MAN_EXT);
         let mut output_html_file = PathBuf::from(&root_dir);
+        output_html_file.push(MAN_NAME);
         output_html_file.push("manpage");
         output_html_file.set_extension(HTML_EXT);
         let mut input_doc_file = PathBuf::from(&root_dir);
