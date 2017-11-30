@@ -214,6 +214,16 @@
 <span id="169">169</span>
 <span id="170">170</span>
 <span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright (C) 2017 Christopher R. Field.</span>
 <span class="comment">//</span>
@@ -236,14 +246,16 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Groom is primarily a Command-Line Interface (CLI) application for processing</span>
 <span class="doccomment">//! [mustache](https://mustache.github.io/) templates, but it is also implemented as a library</span>
-<span class="doccomment">//! (crate) that can be integrated with other projects.</span>
+<span class="doccomment">//! (crate) that can be integrated with other projects. Since the binary is essentially a wrapper</span>
+<span class="doccomment">//! around the publicly exposed functionality of the crate, documentation on using the binary is</span>
+<span class="doccomment">//! provided here in the API documentation.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Binary Usage</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The following examples show using the binary (executable) from a command line. The binary</span>
 <span class="doccomment">//! should work on Windows, macOS, and Linux.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ### Example</span>
+<span class="doccomment">//! ### Examples</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The following example will render the input template using the data in the `data.yml` file and</span>
 <span class="doccomment">//! writes the output to `stdout`.</span>
@@ -252,8 +264,6 @@
 <span class="doccomment">//! $ groom -m data.yml template.mustache</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ### Example</span>
-<span class="doccomment">//!</span>
 <span class="doccomment">//! The following example renders the input template by reading the data from `stdin` and writes</span>
 <span class="doccomment">//! the output to `stdout`.</span>
 <span class="doccomment">//!</span>
@@ -261,14 +271,24 @@
 <span class="doccomment">//! $ cat data.yml | groom template.mustache</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ### Example</span>
-<span class="doccomment">//!</span>
 <span class="doccomment">//! The following example renders the input template using the data in the `data.yml` file and</span>
 <span class="doccomment">//! writes the output to a file.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```bash</span>
 <span class="doccomment">//! $ groom -m data.yml template.mustache output</span>
 <span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ### Exit Codes</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! | Code | Reason                               |</span>
+<span class="doccomment">//! |------|--------------------------------------|</span>
+<span class="doccomment">//! | 0    | Success, no error                    |</span>
+<span class="doccomment">//! | 1    | Failure, generic                     |</span>
+<span class="doccomment">//! | 2    | Failure, user input                  |</span>
+<span class="doccomment">//! | 3    | Failure, Input/Output (IO)           |</span>
+<span class="doccomment">//! | 4    | Failure, rendering mustache template |</span>
+<span class="doccomment">//! | 5    | Failure, UTF8 encoding               |</span>
+<span class="doccomment">//! | 6    | Failure, YAML decoding               |</span>
 
 <span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">log</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">mustache</span>;
