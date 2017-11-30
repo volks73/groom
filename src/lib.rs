@@ -77,11 +77,17 @@ pub type Result<T> = result::Result<T, Error>;
 /// `Input` variant should be used.
 #[derive(Debug)]
 pub enum Error {
+    /// A generic or custom error occurred. The message should contain the detailed information.
     Generic(String),
+    /// An error occurred with end-user input, such as a typo in a path.
     Input(String),
+    /// An I/O operation failed.
     Io(io::Error),
+    /// Parsing and rendering a mustache template failed.
     Mustache(mustache::Error),
+    /// Converting to and/or from a UTF8 string failed.
     Utf8(str::Utf8Error),
+    /// Decoding or deserializing YAML data failed.
     Yaml(serde_yaml::Error),   
 }
 
