@@ -1,6 +1,6 @@
 # Groom: A command line application for processing Mustache templates
 
-[About](#what-is-groom) | [Installation](#installation) | [API](https://volks73.github.io/groom) | [Build](#build) | [Examples](#examples)  
+[About](#what-is-groom) | [Installation](#installation) | [Manual](https://volks73.github.io/groom/manpage.html) | [API](https://volks73.github.io/groom) | [Build](#build) | [Examples](#examples)  
 
 ## What is Groom?
 
