@@ -15,36 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Groom.  If not, see <http://www.gnu.org/licenses/>.
 
-//! `groom` - A command line utility for processing [mustache](https://mustache.github.io/)
-//! templates written in rust.
-//!
-//! # Example
-//!
-//! The following example will render the input template using the data in the `data.yml` file and
-//! writes the output to `stdout`.
-//!
-//! ```text
-//! $ groom -m data.yml template.mustache
-//! ```
-//!
-//! # Example
-//!
-//! The following example renders the input template by reading the data from `stdin` and writes
-//! the output to `stdout`.
-//!
-//! ```text
-//! $ cat data.yml | groom template.mustache
-//! ```
-//!
-//! # Example
-//!
-//! The following example renders the input template using the data in the `data.yml` file and
-//! writes the output to a file.
-//!
-//! ```text
-//! $ groom -m data.yml template.mustache output
-//! ```
-
 extern crate ansi_term;
 extern crate atty;
 #[macro_use] extern crate clap;

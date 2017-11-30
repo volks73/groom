@@ -18,7 +18,40 @@
 //! # Groom
 //!
 //! Groom is primarily a Command-Line Interface (CLI) application for processing
-//! [mustache](https://mustache.github.io/) templates.
+//! [mustache](https://mustache.github.io/) templates, but it is also implemented as a library
+//! (crate) that can be integrated with other projects.
+//!
+//! ## Binary Usage
+//!
+//! The following examples show using the binary (executable) from a command line. The binary
+//! should work on Windows, macOS, and Linux.
+//!
+//! ### Example
+//!
+//! The following example will render the input template using the data in the `data.yml` file and
+//! writes the output to `stdout`.
+//!
+//! ```bash
+//! $ groom -m data.yml template.mustache
+//! ```
+//!
+//! ### Example
+//!
+//! The following example renders the input template by reading the data from `stdin` and writes
+//! the output to `stdout`.
+//!
+//! ```bash
+//! $ cat data.yml | groom template.mustache
+//! ```
+//!
+//! ### Example
+//!
+//! The following example renders the input template using the data in the `data.yml` file and
+//! writes the output to a file.
+//!
+//! ```bash
+//! $ groom -m data.yml template.mustache output
+//! ```
 
 #[macro_use] extern crate log;
 extern crate mustache;
@@ -34,8 +67,14 @@ pub use self::groom::Groom;
 
 mod groom;
 
+/// A specialized `Result` type for Groom operations.
 pub type Result<T> = result::Result<T, Error>;
 
+/// The error type for groom-related operations and associated traits.
+///
+/// Errors mostly originate from the dependencies, but custom instances of Error can be created
+/// with the `Generic` variant and a message. If the error is related to user input, then the
+/// `Input` variant should be used.
 #[derive(Debug)]
 pub enum Error {
     Generic(String),
@@ -47,6 +86,11 @@ pub enum Error {
 }
 
 impl Error {
+    /// Gets an error code related to the error.
+    ///
+    /// This is useful as a return, or exit, code for a command line application, where a non-zero
+    /// integer indicates a failure in the application. It can also be used for quickly and easily
+    /// testing equality between two errors.
     pub fn code(&self) -> i32 {
         match *self{
             Error::Generic(..) => 1,
