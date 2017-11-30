@@ -1,6 +1,6 @@
 # Groom: A command line application for processing Mustache templates
 
-[About](#what-is-groom) | [Installation](#installation) | [Build](#build) | [Examples](#examples)  
+[About](#what-is-groom) | [Installation](#installation) | [API](https://volks73.github.io/groom) | [Build](#build) | [Examples](#examples)  
 
 ## What is Groom?
 
@@ -88,6 +88,18 @@ Or obtain the source as an archive and run the following commands from a termina
 where `#.#.#` is replaced with the version number of the source distribution, respectively. The `--release` flag can be added to the cargo command to build a release application instead of a debug application. 
 
 ### Documentation
+
+Documentation is available in two forms: (i) [API](#api) and (ii) [Manpage](#manpage). The API documentation is for the groom library/crate while the Manpage documentation is helpful for the executable/binary. 
+
+#### [API](https://volks73.github.io/groom)
+
+Obtain the appropriate source and run the following commands from the root directory of the project in a terminal:
+
+    $ cargo doc --no-deps
+
+The output will be available in the `target/doc` folder.
+
+#### Manpage
 
 Obtain the appropriate source and run the following commands from the root directory of the project in a terminal:
 
