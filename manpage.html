@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Christopher R. Field" />
+  <title>GROOM(1)</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">GROOM(1)</h1>
+<h2 class="author">Christopher R. Field</h2>
+<h3 class="date">November 2017</h3>
+</div>
+<h1 id="name">NAME</h1>
+<p>groom - A utility for processing mustache templates</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>groom [<em>options</em>] <em>input-file</em> [<em>output-file</em>]...</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>The Groom project is a Command-Line Interface (CLI) application for processing <a href="https://mustache.github.io/">Mustache</a> templates. The project is primarily written in the <a href="http://www.rust-lang.org">Rust</a> programming language. It can be installed on any <a href="https://forge.rust-lang.org/platform-support.html">platform supported</a> by the Rust programming language, including Linux, macOS, and Windows.</p>
+<h1 id="options">OPTIONS</h1>
+<dl>
+<dt>-d, --debug</dt>
+<dd>Changes the output stream for INFO, DEBUG, and TRACE log statements from <code>stdout</code> to <code>stderr</code>. This is useful for debugging templates without clutter up the <code>stdout</code> stream if redirecting to a file or piping to another application.
+</dd>
+<dt>-m <em>FILE</em>, --map=<em>FILE</em></dt>
+<dd>The YAML text data file that maps template tags (placeholders) to values. The default is to read from <code>stdin</code> unless this option is used to specify a file.
+</dd>
+<dt>-v, --verbose</dt>
+<dd>Sets the level of verbosity. The higher the level of verbosity, the more log statements that are printed to either <code>stdout</code> or <code>stderr</code> depending on other flags and options. This flag can be specified multiple times, where each occurrence increases the level.
+</dd>
+</dl>
+</body>
+</html>
