@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Error","The error type for groom-related operations and associated traits."]],"struct":[["Groom","A builder for running the application."]],"type":[["Result","A specialized `Result` type for groom operations."]]});
