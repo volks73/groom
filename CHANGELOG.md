@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file, which is wr
 
 ## [Unreleased][unreleased]
 
+## [0.1.0] - 2017-11-30
+
 ### Added 
 
 - Reading YAML data from `stdin` as default.
