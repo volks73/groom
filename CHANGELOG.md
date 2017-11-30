@@ -19,4 +19,6 @@ All notable changes to this project will be documented in this file, which is wr
 - The LICENSE file.
 - The README file.
 - The AUTHORS file.
+- Library/crate documentation.
+- Executable/binary documentation.
 
