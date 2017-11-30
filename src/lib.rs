@@ -67,7 +67,7 @@ pub use self::groom::Groom;
 
 mod groom;
 
-/// A specialized `Result` type for Groom operations.
+/// A specialized `Result` type for groom operations.
 pub type Result<T> = result::Result<T, Error>;
 
 /// The error type for groom-related operations and associated traits.
