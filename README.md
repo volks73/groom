@@ -99,7 +99,7 @@ Obtain the appropriate source and run the following commands from the root direc
 
 The output will be available in the `target/doc` folder.
 
-#### Manpage
+#### [Manpage](https://volks73.github.io/groom/manpage.html)
 
 Obtain the appropriate source and run the following commands from the root directory of the project in a terminal:
 
