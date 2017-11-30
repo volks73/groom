@@ -101,13 +101,14 @@ The output will be available in the `target/doc` folder.
 
 #### [Manpage](https://volks73.github.io/groom/manpage.html)
 
-Obtain the appropriate source and run the following commands from the root directory of the project in a terminal:
+Obtain the appropriate source and run the following commands from the root directory of the project in a terminal to build the manpage in the [groff](https://www.gnu.org/software/groff/) and html formats:
 
     $ cargo build --release
 
 Or,
 
     $ pandoc -s -t man -o man/groom.1 man/groom.1.md
+    $ pandoc -s -t html -o manpage.html man/groom.1.md
 
 When the `release` profile is used to build the binary, the manpage is automatically generated if pandoc is installed.
 

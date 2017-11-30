@@ -2,3 +2,4 @@
 **/*.rs.bk
 groom.1
 man/groom.1
+manpage.html
