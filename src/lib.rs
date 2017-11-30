@@ -19,14 +19,16 @@
 //!
 //! Groom is primarily a Command-Line Interface (CLI) application for processing
 //! [mustache](https://mustache.github.io/) templates, but it is also implemented as a library
-//! (crate) that can be integrated with other projects.
+//! (crate) that can be integrated with other projects. Since the binary is essentially a wrapper
+//! around the publicly exposed functionality of the crate, documentation on using the binary is
+//! provided here in the API documentation.
 //!
 //! ## Binary Usage
 //!
 //! The following examples show using the binary (executable) from a command line. The binary
 //! should work on Windows, macOS, and Linux.
 //!
-//! ### Example
+//! ### Examples
 //!
 //! The following example will render the input template using the data in the `data.yml` file and
 //! writes the output to `stdout`.
@@ -35,8 +37,6 @@
 //! $ groom -m data.yml template.mustache
 //! ```
 //!
-//! ### Example
-//!
 //! The following example renders the input template by reading the data from `stdin` and writes
 //! the output to `stdout`.
 //!
@@ -44,14 +44,24 @@
 //! $ cat data.yml | groom template.mustache
 //! ```
 //!
-//! ### Example
-//!
 //! The following example renders the input template using the data in the `data.yml` file and
 //! writes the output to a file.
 //!
 //! ```bash
 //! $ groom -m data.yml template.mustache output
 //! ```
+//!
+//! ### Exit Codes
+//!
+//! | Code | Reason                               |
+//! |------|--------------------------------------|
+//! | 0    | Success, no error                    |
+//! | 1    | Failure, generic                     |
+//! | 2    | Failure, user input                  |
+//! | 3    | Failure, Input/Output (IO)           |
+//! | 4    | Failure, rendering mustache template |
+//! | 5    | Failure, UTF8 encoding               |
+//! | 6    | Failure, YAML decoding               |
 
 #[macro_use] extern crate log;
 extern crate mustache;
