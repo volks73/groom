@@ -1,4 +1,5 @@
 /target/
+/wix/
 **/*.rs.bk
 groom.1
 man/groom.1
