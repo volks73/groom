@@ -1,6 +1,6 @@
 [package]
-name = "groom"
-description = "A command line utility for processing mustache templates written in rust"
+name = "Groom"
+description = "A command line utility for processing Mustache templates"
 version = "0.1.0"
 authors = ["Christopher Field <cfield2@gmail.com>"]
 license = "GPL-3.0"
@@ -9,6 +9,7 @@ keywords = ["cli", "mustache", "template"]
 categories = ["command-line-utilities", "text-processing"]
 homepage = "https://github.com/volks73/groom"
 repository = "https://github.com/volks73/groom"
+documentation = "https://volks73.github.io/groom"
 build = "build.rs"
 
 [[bin]]
