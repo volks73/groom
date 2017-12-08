@@ -39,9 +39,9 @@ fn main() {
     // avoid build errors on non-windows platforms, a cfg guard should be put in place.
     #[cfg(windows)] ansi_term::enable_ansi_support().expect("Enable ANSI support on Windows");
 
-    let matches = App::new("groom")
+    let matches = App::new(crate_name!())
         .version(crate_version!())
-        .about("An application for processing mustache templates")
+        .about(crate_description!())
         .arg(Arg::with_name("map")
              .help("The YAML text data that maps template tags (placeholders) to values. The default is to read from stdin.")
              .short("m")
@@ -65,6 +65,7 @@ fn main() {
              .short("v")
              .multiple(true))
         .get_matches();
+    let verbosity = matches.occurrences_of("verbose");
     if matches.is_present("debug") {
         loggerv::Logger::new()
             .output(&LogLevel::Info, Output::Stderr)
@@ -72,7 +73,8 @@ fn main() {
             .output(&LogLevel::Trace, Output::Stderr)
     } else {
         loggerv::Logger::new()
-    }.verbosity(matches.occurrences_of("verbose"))
+    }.verbosity(verbosity)
+    .line_numbers(verbosity > 3)
     .module_path(false)
     .level(true)
     .init()

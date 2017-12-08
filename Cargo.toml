@@ -17,6 +17,9 @@ name = "groom"
 path = "src/main.rs"
 doc = false
 
+[lib]
+name = "groom"
+
 [dependencies]
 ansi_term = "0.10"
 atty = "0.2"
