@@ -1,10 +1,8 @@
 # Groom: A command line application for processing Mustache templates
 
-[About](#what-is-groom) | [Installation](#installation) | [Manual](https://volks73.github.io/groom/manpage.html) | [API](https://volks73.github.io/groom) | [Build](#build) | [Examples](#examples)  
+Groom is a Command-Line Interface (CLI) application for processing [Mustache](https://mustache.github.io/) templates. The project is primarily written in the [Rust](http://www.rust-lang.org) programming language. It can be installed on any [platform supported](https://forge.rust-lang.org/platform-support.html) by the Rust programming language, including Linux, macOS, and Windows. 
 
-## What is Groom?
-
-The Groom project is a Command-Line Interface (CLI) application for processing [Mustache](https://mustache.github.io/) templates. The project is primarily written in the [Rust](http://www.rust-lang.org) programming language. It can be installed on any [platform supported](https://forge.rust-lang.org/platform-support.html) by the Rust programming language, including Linux, macOS, and Windows. 
+[Installation](#installation) | [Usage](#usage) | [Manual](https://volks73.github.io/groom/manpage.html) | [API](https://volks73.github.io/groom) | [Build](#build)
 
 ## Installation
 
@@ -12,7 +10,7 @@ Groom can be installed on any platform supported by the Rust programming languag
 
 ### Windows
 
-An installer (msi) with a pre-compiled binary is available with each [release](https://github.com/volks73/groom/releases). The installer will also add the installation location to the PATH system environment variable so groom can be executed from anywhere. Run the installer and follow the on-screen dialog to complete the installation.
+An installer (msi) with a pre-compiled binary is available with each [release](https://github.com/volks73/groom/releases). The installer will also add the installation location to the PATH system environment variable so the `groom` command can be executed from anywhere. Run the installer and follow the on-screen dialog to complete the installation.
 
 It is also possible to install the application from source using Cargo. See the instructions for [installation via Cargo](#source) and use a command prompt (cmd.exe) or terminal emulator to execute the commands.
 
@@ -67,6 +65,34 @@ If uninstalling groom using Cargo, i.e. `cargo uninstall groom`, then the manpag
 
     $ rm ~/.cargo/share/man/man1/groom.1
 
+## Usage
+
+Process a template by reading data from `stdin` and rendering to `stdout`:
+
+```bash
+$ cat data.yml | groom template.mustache
+```
+
+or using redirection:
+
+```bash
+$ groom template.mustache < data.yml
+```
+
+or using the `-m,--map` option:
+
+```bash
+$ groom -m data.yml template.mustache
+```
+
+The template is rendered to `stdout` by default, but an optional `OUTPUT` argument can be used to specify a file for output instead of `stdout`:
+
+```bash
+$ groom -m data.yml template.mustache index.html
+```
+
+Note, the output file must be the second argument if it is used, but it is not required. The input template is required.
+
 ## Build
 
 Download and install the same dependencies listed for [installing the application from source](#source), this includes the latest versions of [Rust](https://www.rust-lang.org), [Cargo](https://crates.io), and optionally [Pandoc](http://pandoc.org). 
@@ -112,39 +138,7 @@ Or,
 
 When the `release` profile is used to build the binary, the manpage is automatically generated if pandoc is installed.
 
-## Examples
-
-Process a template by reading data from `stdin` and rendering to `stdout`:
-
-```bash
-$ cat data.yml | groom template.mustache
-```
-
-or using redirection:
-
-```bash
-$ groom template.mustache < data.yml
-```
-
-or using the `-m,--map` option:
-
-```bash
-$ groom -m data.yml template.mustache
-```
-
-The template is rendered to `stdout` by default, but an optional `OUTPUT` argument can be used to specify a file for output instead of `stdout`:
-
-```bash
-$ groom -m data.yml template.mustache index.html
-```
-
-Note, the output file must be the second argument if it is used, but it is not required. The input template is required.
-
 ## License
 
-See the LICENSE file for more information about licensing and copyright.
-
-## Contributors
-
-See the AUTHORS file for information about contributors. Contributors are listed alphabetically by family name.
+The Groom project is licensed under the [GPL-3.0 license](https://www.gnu.org/licenses/gpl-3.0.en.html). See the [LICENSE](https://github.com/volks73/groom/blob/master/LICENSE) file for more information about licensing and copyright.
 
