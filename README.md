@@ -3,7 +3,7 @@
 Groom is a Command-Line Interface (CLI) application for processing [Mustache](https://mustache.github.io/) templates. The project is primarily written in the [Rust](http://www.rust-lang.org) programming language. It can be installed on any [platform supported](https://forge.rust-lang.org/platform-support.html) by the Rust programming language, including Linux, macOS, and Windows. 
 
 [![GitHub release](https://img.shields.io/github/release/volks73/groom.svg)](https://github.com/volks73/groom/releases)
-[![Crates.io](https://img.shields.io/crates/l/groom.svg)](https://github.com/volks73/groom/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/volks73/groom.svg)](https://github.com/volks73/groom/blob/master/LICENSE)
 
 [Installation](#installation) | [Usage](#usage) | [Manual](https://volks73.github.io/groom/manpage.html) | [API](https://volks73.github.io/groom) | [Build](#build)
 
