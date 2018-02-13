@@ -1,7 +1,7 @@
 [package]
 name = "Groom"
 description = "A command line utility for processing Mustache templates"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Christopher Field <cfield2@gmail.com>"]
 license = "GPL-3.0"
 readme = "README.md"
@@ -26,7 +26,7 @@ atty = "0.2"
 clap = "2.27"
 log = "0.3"
 loggerv = "0.6"
-mustache = { git = "https://github.com/volks73/rust-mustache.git" }
+mustache = "0.9"
 serde = "1.0"
 serde_yaml = "0.7"
 
