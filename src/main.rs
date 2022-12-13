@@ -6,18 +6,19 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Groom is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with Groom.  If not, see <http://www.gnu.org/licenses/>.
 
 extern crate ansi_term;
 extern crate atty;
-#[macro_use] extern crate clap;
+#[macro_use]
+extern crate clap;
 extern crate groom;
 extern crate log;
 extern crate loggerv;
@@ -25,9 +26,8 @@ extern crate loggerv;
 use ansi_term::Colour;
 use clap::{App, Arg};
 use groom::Groom;
-use log::LogLevel;
+use log::Level;
 use loggerv::Output;
-use std::error::Error;
 use std::io::Write;
 
 const ERROR_COLOR: Colour = Colour::Fixed(9); // Bright red
@@ -37,7 +37,8 @@ fn main() {
     // but it must be enabled first. The ansi_term crate provides a function for enabling ANSI
     // support in Windows, but it is conditionally compiled and only exists for Windows builds. To
     // avoid build errors on non-windows platforms, a cfg guard should be put in place.
-    #[cfg(windows)] ansi_term::enable_ansi_support().expect("Enable ANSI support on Windows");
+    #[cfg(windows)]
+    ansi_term::enable_ansi_support().expect("Enable ANSI support on Windows");
 
     let matches = App::new(crate_name!())
         .version(crate_version!())
@@ -68,12 +69,13 @@ fn main() {
     let verbosity = matches.occurrences_of("verbose");
     if matches.is_present("debug") {
         loggerv::Logger::new()
-            .output(&LogLevel::Info, Output::Stderr)
-            .output(&LogLevel::Debug, Output::Stderr)
-            .output(&LogLevel::Trace, Output::Stderr)
+            .output(&Level::Info, Output::Stderr)
+            .output(&Level::Debug, Output::Stderr)
+            .output(&Level::Trace, Output::Stderr)
     } else {
         loggerv::Logger::new()
-    }.verbosity(verbosity)
+    }
+    .verbosity(verbosity)
     .line_numbers(verbosity > 3)
     .module_path(false)
     .level(true)
@@ -86,16 +88,14 @@ fn main() {
     match result {
         Ok(_) => {
             std::process::exit(0);
-        },
+        }
         Err(e) => {
-            let mut tag = format!("Error[{}] ({})", e.code(), e.description());
+            let mut tag = format!("Error[{}] ({})", e.code(), e);
             if atty::is(atty::Stream::Stderr) {
                 tag = ERROR_COLOR.paint(tag).to_string()
             }
-            writeln!(&mut std::io::stderr(), "{}: {}", tag, e)
-                .expect("Writing to stderr");
+            writeln!(&mut std::io::stderr(), "{}: {}", tag, e).expect("Writing to stderr");
             std::process::exit(e.code());
         }
     }
 }
-

@@ -6,27 +6,27 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Groom is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with Groom.  If not, see <http://www.gnu.org/licenses/>.
 
-use Error;
 use mustache;
 use serde_yaml::{self, Value};
-use std::path::{Path, PathBuf};
 use std::fs::File;
 use std::io::{self, Write};
+use std::path::{Path, PathBuf};
+use Error;
 use Result;
 
 /// A builder for running the application.
 pub struct Groom {
     data: Option<PathBuf>,
-    output: Option<PathBuf>
+    output: Option<PathBuf>,
 }
 
 impl Groom {
@@ -66,13 +66,16 @@ impl Groom {
             if data.exists() {
                 serde_yaml::from_reader(File::open(data)?)?
             } else {
-                return Err(Error::Input(format!("The '{}' data file does not exist", data.display())))
+                return Err(Error::Input(format!(
+                    "The '{}' data file does not exist",
+                    data.display()
+                )));
             }
         } else {
             info!("Reading data from stdin");
             serde_yaml::from_reader(io::stdin())?
         };
-        let mut output_writer: Box<Write> = if let Some(output) = self.output {
+        let mut output_writer: Box<dyn Write> = if let Some(output) = self.output {
             trace!("Rendering to '{}'", output.display());
             Box::new(File::create(output)?)
         } else {
@@ -89,7 +92,10 @@ impl Groom {
             // which does contain serde support and development can continue.
             template.render(&mut output_writer, &data)?;
         } else {
-            return Err(Error::Input(format!("The '{}' template file does not exist", path.display())));
+            return Err(Error::Input(format!(
+                "The '{}' template file does not exist",
+                path.display()
+            )));
         }
         Ok(())
     }
@@ -120,4 +126,3 @@ mod tests {
         assert_eq!(groom.data, Some(PathBuf::from(EXPECTED)));
     }
 }
-
