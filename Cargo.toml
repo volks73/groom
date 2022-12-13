@@ -21,12 +21,11 @@ doc = false
 name = "groom"
 
 [dependencies]
-ansi_term = "0.10"
+ansi_term = "0.12"
 atty = "0.2"
-clap = "2.27"
-log = "0.3"
-loggerv = "0.6"
+clap = "2"
+log = "0.4"
+loggerv = "0.7"
 mustache = "0.9"
-serde = "1.0"
-serde_yaml = "0.7"
-
+serde = "1"
+serde_yaml = "0.9"
