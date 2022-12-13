@@ -6,12 +6,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Groom is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with Groom.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -63,7 +63,8 @@
 //! | 5    | Failure, UTF8 encoding               |
 //! | 6    | Failure, YAML decoding               |
 
-#[macro_use] extern crate log;
+#[macro_use]
+extern crate log;
 extern crate mustache;
 extern crate serde_yaml;
 
@@ -98,7 +99,7 @@ pub enum Error {
     /// Converting to and/or from a UTF8 string failed.
     Utf8(str::Utf8Error),
     /// Decoding or deserializing YAML data failed.
-    Yaml(serde_yaml::Error),   
+    Yaml(serde_yaml::Error),
 }
 
 impl Error {
@@ -108,7 +109,7 @@ impl Error {
     /// integer indicates a failure in the application. It can also be used for quickly and easily
     /// testing equality between two errors.
     pub fn code(&self) -> i32 {
-        match *self{
+        match *self {
             Error::Generic(..) => 1,
             Error::Input(..) => 2,
             Error::Io(..) => 3,
@@ -144,13 +145,13 @@ impl StdError for Error {
         }
     }
 
-    fn cause(&self) -> Option<&StdError> {
+    fn cause(&self) -> Option<&dyn StdError> {
         match *self {
             Error::Io(ref err) => Some(err),
             Error::Mustache(ref err) => Some(err),
             Error::Utf8(ref err) => Some(err),
             Error::Yaml(ref err) => Some(err),
-            _ => None
+            _ => None,
         }
     }
 }
@@ -178,4 +179,3 @@ impl From<str::Utf8Error> for Error {
         Error::Utf8(err)
     }
 }
-
